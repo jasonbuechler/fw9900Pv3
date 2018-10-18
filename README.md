@@ -4,7 +4,7 @@ I'm pretty sure that "WWyift*" is the aes-128-cbc key for Step2_FosIPC_F_app_ver
 
 Uploading it here for reference, though!
 
-'''
+```
 C:\>openssl enc -d -aes-128-cbc -in Step2_FosIPC_F_app_ver2.x.1.42.bin -out test.bin -md md5 -k "Wyift*"
 bad decrypt
 36500:error:06065064:digital envelope routines:EVP_DecryptFinal_ex:bad decrypt:.\crypto\evp\evp_enc.c:531:
@@ -22,4 +22,4 @@ C:\>openssl enc -d -aes-128-cbc -in Step2_FosIPC_F_app_ver2.x.1.42.bin -out test
 C:\Users\jason\Downloads\openssl-1.0.2o-x64_86-win64>openssl enc -d -aes-128-cbc -in Step2_FosIPC_F_app_ver2.x.1.42.bin -out test2.bin -md md5 -k WWyift*v2
 bad decrypt
 47996:error:06065064:digital envelope routines:EVP_DecryptFinal_ex:bad decrypt:.\crypto\evp\evp_enc.c:531:
-'''
+```
