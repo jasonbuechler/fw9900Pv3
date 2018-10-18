@@ -5,6 +5,9 @@ I'm pretty sure that "WWyift*" is the aes-128-cbc key for Step2_FosIPC_F_app_ver
 Uploading it here for reference, though!
 (I had to split it in 2 parts to get around the filesize upload restriction. I used 7zip but I think you can combine with just about anything, including `cat test.bin* > test.bin`.)
 
+* Algorithm : MD5
+* Hash      : FBC67F2AB8309D4E7E243CDA80975FC3
+
 ```
 C:\>openssl enc -d -aes-128-cbc -in Step2_FosIPC_F_app_ver2.x.1.42.bin -out test.bin -md md5 -k "Wyift*"
 bad decrypt
