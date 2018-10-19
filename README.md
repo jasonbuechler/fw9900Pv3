@@ -79,8 +79,19 @@ But still no luck.
 I also XOR'd it as was necessary for the C1 recover_image.bin but the resulting file was also gibberish.
 But there are lots of ways to twiddle bytes in XOR algorithms, that's certainly still on the table.
 
-I have a suspicion that since you are *required* to install the sys fw first, perhaps there's a key or something actually in that bundle. However, we hit the same roadblock *but with a different key* decrypting that .bin...
+Even though Foscam munged the C1 recover_image.bin with a basic keyless XOR algorithm, I still did some limited checking with [the automatic XOR decryptor tool](http://seclist.us/automatic-xor-decryptor-tool.html) to see if they had used an XOR cipher stream with a rotating key... or at least I used the tool to see if such a key might be obviously findable. 
 
+![auto_xor_key_fail.png](auto_xor_key_fail.png)
+
+The best repeating key sequence it could find was only 5 bytes long which seems an unlikely candidate, in any rotation.
+
+It's my understanding that (with defaults) such a tool works only if the enciphered file has long strings of repeated bytes (ideally zeroes) such that ID'ing a pattern is possible, so this doesn't necessarily mean they didn't do it, just that the original file had unworkable entropy.
+
+Of course the most obvious choice of key, if they were going to do it that way, would be to use the same key(s) that unlocked the original firmware .bin(s).
+
+![auto_xor_key_attempts.png](auto_xor_key_attempts.png)
+
+I don't think that tool will try all rotations/reflections/etc of the provided key. I'm pretty sure it just starts from byte-0 and stream-XORs to the end. It looks like you can provide the specific offset you want, but I'm not going to do that since I think it's barking up the wrong tree.
 
 ## Step1_FosIPC_F_sys_ver1.11.1.10.bin
 
