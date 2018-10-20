@@ -28,3 +28,16 @@ openssl enc -d -aes-128-cbc -in app_ver2.x.1.64.bin -out app64-dec -md md5 -k 'W
 openssl enc -d -aes-128-cbc -in sys_ver1.11.1.10.bin -out sys10-dec -md md5 -k 'WWyift*v2'
 openssl enc -d -aes-128-cbc -in sys_ver1.11.1.11.bin -out sys11-dec -md md5 -k 'BpP+2R9*Q'
 ```
+
+```
+hexdump -C -n 64 app42-dec
+hexdump -C -n 64 app59-dec
+hexdump -C -n 64 app64-dec
+hexdump -C -n 64 sys10-dec
+hexdump -C -n 64 sys11-dec
+tail -c 64 app42-dec | hexdump -C
+tail -c 64 app59-dec | hexdump -C
+tail -c 64 app64-dec | hexdump -C
+tail -c 64 sys10-dec | hexdump -C
+tail -c 64 sys11-dec | hexdump -C
+```
