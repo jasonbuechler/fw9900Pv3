@@ -135,32 +135,17 @@ Soooo it's indepentantly deciphering different files, treating them differently?
 
 # The size and shape of straws
 
-```
-jason@ubuntu-vm:~/Downloads/fw9900p$ sha256sum *bin
-623456cca66b8e61d93a0f6cf17586d4d925412f2d1b22720bbeb7c2112f7585  app_ver2.x.1.42.bin
-eaf2e6be5904632b464e3d54c4fe10c728a794fe0b0fa9cc56dee911ce336081  app_ver2.x.1.44.bin
-5dce6ac804800213b1109af7e2aef20d98b52ae57bb3f6f7b74379299fbf305d  app_ver2.x.1.48.bin
-31e644b4a020bf03d3b6288ccef8d81dd4ba032b1025f566023e90d7fd821792  app_ver2.x.1.49.bin
-a621475a6805b48e81db442f546ddc5123f5e8f24d30d410d3841ee4c5ef7359  app_ver2.x.1.56.bin
-ab60d4bfef7e9cac988a0af80cdcf7374a1d7e121ebc3aee03b41a4c741ac57c  app_ver2.x.1.59.bin
-c8eea21bbf0d2048701f9e226f5273fb404a323af8b444b4a59a390583432a9c  app_ver2.x.1.64.bin
-d504d92ea921a64f4dfea85c5bf18d7ea7d86b4e82f0add35912a4b04bcf3f51  patch_ver2.x.1.26_1_20161112_FI9900PV3.bin
-2017ee0c44a1d2ad5dfa1a9b7c2e0bbf9aab258640f845392c031bcf4a2ccb90  sys_ver1.11.1.10.bin
-dd38a24e73e150adf976cb9b2b5685cf3e055a77002e6615f7ae67756837096b  sys_ver1.11.1.11.bin
-897e314f7bd04122f811d687f60898733ddc2806844d57337b03ae8922beb9e1  sys_ver1.11.1.13.bin
-jason@ubuntu-vm:~/Downloads/fw9900p$ md5sum *bin
-333c5abed872d494f359f2702d5743ee  app_ver2.x.1.42.bin
-72c7695bdf643e3becadc7ff0c1a5dac  app_ver2.x.1.44.bin
-7a5622dc5a4e560fab1fd4fc0df81f99  app_ver2.x.1.48.bin
-fa706959c5a973a5dfab146d5ef588a8  app_ver2.x.1.49.bin
-a74d8f7bc358c4fdf2f3668ff101f800  app_ver2.x.1.56.bin
-88cc88301aff434116506eb667b0c32f  app_ver2.x.1.59.bin
-5bf074c318657d796c9a5ac48837554a  app_ver2.x.1.64.bin
-a0e5f6eaef0203052e8dbad7d3fe5a1d  patch_ver2.x.1.26_1_20161112_FI9900PV3.bin
-da5bded4eb498b75800d324c05384b36  sys_ver1.11.1.10.bin
-e8b7487115e6730ca5c0763f89a266d1  sys_ver1.11.1.11.bin
-588db7fa038164772b48071c94468074  sys_ver1.11.1.13.bin
+Well of COURSE it's not the md5. You can't know the md5 unless you've never touched the file again, that's kind of the point. So they couldn't xor using it.
 
+But you know what doesn't change when you xor a file? The filesize.
+
+```
+jason@ubuntu-vm:~/Downloads/fw9900p$ ls -al *dec
+-rw-r--r-- 1 jason jason 35638271 Oct 19 21:09 app42-dec
+-rw-r--r-- 1 jason jason 34631935 Oct 19 21:09 app59-dec
+-rw-r--r-- 1 jason jason 35343007 Oct 19 21:09 app64-dec
+-rw-r--r-- 1 jason jason 25533263 Oct 19 21:09 sys10-dec
+-rw-r--r-- 1 jason jason  3175663 Oct 19 21:09 sys11-dec
 ```
 
 No uniformity between ends of any of the files, when we should expect them to all be of the same type.
@@ -169,67 +154,68 @@ No uniformity between ends of any of the files, when we should expect them to al
 #
 ##### First 64 bytes
 #
-jason@ubuntu-vm:~/Downloads/fw9900p$ hexdump -C -n 64 app_ver2.x.1.42.bin
-00000000  53 61 6c 74 65 64 5f 5f  f5 03 b7 d7 6b 65 83 e7  |Salted__....ke..|
-00000010  fe 19 1e d5 f9 20 ac 0c  91 41 5a 93 31 1e 2d 17  |..... ...AZ.1.-.|
-00000020  1a 30 3c 41 75 41 f7 68  d3 2a 3c 07 77 ae 2e 4f  |.0<AuA.h.*<.w..O|
-00000030  58 03 e7 c1 fa d4 62 64  05 4c 98 5a 03 da c7 c7  |X.....bd.L.Z....|
+jason@ubuntu-vm:~/Downloads/fw9900p$ hexdump -C -n 64 app42-dec
+00000000  96 83 0d 94 dc 7f 69 f6  ee e2 9b 31 eb a4 4e 0d  |......i....1..N.|
+00000010  8a b1 6a 11 be 09 7b f8  12 a1 0f eb 92 d7 6b d5  |..j...{.......k.|
+00000020  0d 27 e1 0a a9 e0 95 a6  ad 57 12 a0 31 0e 12 c1  |.'.......W..1...|
+00000030  c8 13 33 01 f6 1e 07 a3  0b b8 9e cc 00 2b 3b 44  |..3..........+;D|
 00000040
-jason@ubuntu-vm:~/Downloads/fw9900p$ hexdump -C -n 64 app_ver2.x.1.59.bin
-00000000  53 61 6c 74 65 64 5f 5f  61 7c d2 81 09 53 b0 35  |Salted__a|...S.5|
-00000010  c4 c2 de c6 e0 7f 0d 19  1d 83 db 7b 63 e7 28 3c  |...........{c.(<|
-00000020  41 28 4d 2d 04 2f 08 cf  39 63 25 21 62 7e 17 db  |A(M-./..9c%!b~..|
-00000030  4b e1 97 6d f5 1f d1 62  c0 8f 48 76 1a b9 eb 39  |K..m...b..Hv...9|
+jason@ubuntu-vm:~/Downloads/fw9900p$ hexdump -C -n 64 app59-dec
+00000000  3c d7 e4 25 3b 12 21 24  0f 36 fd ec 63 83 fb be  |<..%;.!$.6..c...|
+00000010  31 b1 48 3f 70 29 ee 69  bb e7 fe 44 19 69 b7 68  |1.H?p).i...D.i.h|
+00000020  66 95 2b 6c 74 36 2b 1b  3b b0 57 f8 21 10 d8 35  |f.+lt6+.;.W.!..5|
+00000030  09 d6 37 1c c3 b5 49 e5  82 ee 6f 31 1d e8 3a ed  |..7...I...o1..:.|
 00000040
-jason@ubuntu-vm:~/Downloads/fw9900p$ hexdump -C -n 64 app_ver2.x.1.64.bin
-00000000  53 61 6c 74 65 64 5f 5f  5b 88 83 ba 56 5c 34 46  |Salted__[...V\4F|
-00000010  25 44 c7 1f 8a b3 19 92  b7 15 a1 83 ef f6 67 b9  |%D............g.|
-00000020  f9 2e 0c 94 b7 66 18 5f  f2 b6 eb a1 64 7d 4f ca  |.....f._....d}O.|
-00000030  22 bf f9 2d 59 95 86 05  d5 af 34 df 4f 96 ad 5f  |"..-Y.....4.O.._|
+jason@ubuntu-vm:~/Downloads/fw9900p$ hexdump -C -n 64 app64-dec
+00000000  f8 1f 20 51 26 4d 29 0b  e8 41 69 5a fb 90 a9 fa  |.. Q&M)..AiZ....|
+00000010  c6 3c a0 4f 0d 0e c5 45  6d 4f 74 82 c4 eb 2e ef  |.<.O...EmOt.....|
+00000020  5d 9c 80 b6 e7 47 c2 ee  58 c9 2c c4 aa 3c e2 68  |]....G..X.,..<.h|
+00000030  c4 fa 96 f1 33 f2 7c 4b  ed 0d 0c d0 b1 0f 29 0e  |....3.|K......).|
 00000040
-jason@ubuntu-vm:~/Downloads/fw9900p$ hexdump -C -n 64 sys_ver1.11.1.10.bin
-00000000  53 61 6c 74 65 64 5f 5f  ef a4 cb 32 19 c0 a3 15  |Salted__...2....|
-00000010  61 70 17 87 a1 49 fd 77  3e 49 60 6c a3 63 e8 08  |ap...I.w>I`l.c..|
-00000020  49 6e 45 24 8d 22 9a 06  9c d4 a5 48 f4 6c 84 66  |InE$.".....H.l.f|
-00000030  a1 2c 52 b8 33 0a 38 7c  95 89 dd 63 c8 df 89 83  |.,R.3.8|...c....|
+jason@ubuntu-vm:~/Downloads/fw9900p$ hexdump -C -n 64 sys10-dec
+00000000  84 98 34 28 aa 67 1f 1c  24 6c e3 a8 25 29 aa 45  |..4(.g..$l..%).E|
+00000010  a5 24 1a 9e 4e 0c b0 08  1e 98 3c 00 66 76 cb a9  |.$..N.....<.fv..|
+00000020  75 7b 0b f6 68 0d c1 90  02 ec c1 a7 a1 2d b4 75  |u{..h........-.u|
+00000030  78 e6 f6 d2 a3 d8 9a a9  fb f6 7d e2 e2 d3 c0 46  |x.........}....F|
 00000040
-jason@ubuntu-vm:~/Downloads/fw9900p$ hexdump -C -n 64 sys_ver1.11.1.11.bin 
-00000000  53 61 6c 74 65 64 5f 5f  87 14 09 60 85 f1 02 e3  |Salted__...`....|
-00000010  17 e8 b2 12 95 da 4d fa  b7 8b e2 61 bd 4c f8 1a  |......M....a.L..|
-00000020  34 77 5f 69 25 e4 46 d9  d5 26 2f 08 f5 60 c7 79  |4w_i%.F..&/..`.y|
-00000030  da 0e ac d3 d3 8d bb 9b  7c 7b d7 69 3a 1c b0 24  |........|{.i:..$|
+jason@ubuntu-vm:~/Downloads/fw9900p$ hexdump -C -n 64 sys11-dec
+00000000  1c 25 0a f8 2b 41 9f 1b  79 37 3f 7f f0 02 3b 4d  |.%..+A..y7?...;M|
+00000010  e5 ea 37 ff 6a 24 d6 d6  22 2d 1e 6f 6d 51 58 8f  |..7.j$.."-.omQX.|
+00000020  32 60 43 29 f4 c9 08 90  47 2d 0a d4 ff f7 ad 4d  |2`C)....G-.....M|
+00000030  97 61 a4 65 4b f2 56 d2  17 36 6e 69 a8 c3 b7 90  |.a.eK.V..6ni....|
 00000040
 #
 ##### LAST 64 bytes
 #
-jason@ubuntu-vm:~/Downloads/fw9900p$ tail -c 64 app_ver2.x.1.42.bin | hexdump -C
-00000000  8f 01 66 d5 86 42 49 d0  0e 79 b9 5b 7d 9c 47 cb  |..f..BI..y.[}.G.|
-00000010  3a 40 ee ca 2a 91 16 93  3b 80 60 7f ac 08 3d 0d  |:@..*...;.`...=.|
-00000020  cc 3f 46 b3 ad a5 54 00  2c b4 27 c4 e0 a1 bd 86  |.?F...T.,.'.....|
-00000030  02 45 68 74 ff 94 73 68  86 fc f1 8c a1 e5 de f1  |.Eht..sh........|
+jason@ubuntu-vm:~/Downloads/fw9900p$ tail -c 64 app42-dec | hexdump -C
+00000000  27 6e 0c 5f 9b da 00 61  f0 90 b0 f0 8f ed 42 1f  |'n._...a......B.|
+00000010  43 ee fc 1f 66 54 3d 9f  12 f8 f0 ca 38 68 9a 5d  |C...fT=.....8h.]|
+00000020  50 a2 58 ef 26 60 5f d5  1a 46 ac 0d 21 4b f5 a7  |P.X.&`_..F..!K..|
+00000030  6b 4f f8 73 98 7d 9d 0f  e1 59 68 e1 2d 0a 1c 4b  |kO.s.}...Yh.-..K|
 00000040
-jason@ubuntu-vm:~/Downloads/fw9900p$ tail -c 64 app_ver2.x.1.59.bin | hexdump -C
-00000000  7e f0 4e b5 99 32 30 e4  3f f5 04 15 76 f2 31 b3  |~.N..20.?...v.1.|
-00000010  17 8d 79 e7 ab e9 7f 63  70 27 c3 6f 6e 4d 73 65  |..y....cp'.onMse|
-00000020  3e 20 3b 3d b9 98 98 46  8c 3f 51 38 5f f9 7d 9a  |> ;=...F.?Q8_.}.|
-00000030  bd f5 64 4e a0 da a7 ff  6b f6 a6 fa 84 e8 b6 61  |..dN....k......a|
+jason@ubuntu-vm:~/Downloads/fw9900p$ tail -c 64 app59-dec | hexdump -C
+00000000  65 d3 8f f7 ea 67 b1 39  5b d6 93 4d 2c b3 d6 82  |e....g.9[..M,...|
+00000010  8e a2 6c 99 ce 23 0f d3  24 ea 11 ec 34 0b 51 74  |..l..#..$...4.Qt|
+00000020  5a 5c 47 d9 bf 77 fa 04  cf fc d2 5f 6e c4 64 07  |Z\G..w....._n.d.|
+00000030  70 07 f6 60 fa 6e 94 91  02 62 7c d9 53 87 fb 3c  |p..`.n...b|.S..<|
 00000040
-jason@ubuntu-vm:~/Downloads/fw9900p$ tail -c 64 app_ver2.x.1.64.bin | hexdump -C
-00000000  b4 b9 c2 be 73 6e b1 73  53 1c 85 79 c6 a7 11 49  |....sn.sS..y...I|
-00000010  3b 31 3a b7 f7 59 2a 7d  be 9a 40 d9 17 1a aa b0  |;1:..Y*}..@.....|
-00000020  1d 16 bb a8 2a d2 00 b1  c5 4b 10 2e 88 14 95 d6  |....*....K......|
-00000030  ad 20 f1 e0 f6 5b 9c 2e  29 9f 2d 28 d8 8e 59 3c  |. ...[..).-(..Y<|
+jason@ubuntu-vm:~/Downloads/fw9900p$ tail -c 64 app64-dec | hexdump -C
+00000000  62 c1 2f 35 0f 52 9d 73  b9 9d 29 7c 1a 20 f0 bf  |b./5.R.s..)|. ..|
+00000010  d2 ba f7 a5 e7 a7 5f cd  71 af d0 ce 4c 9c d0 12  |......_.q...L...|
+00000020  d6 5d bf 01 ec dd 0b 1f  aa cd c5 52 45 34 b5 a8  |.].........RE4..|
+00000030  05 f3 ec af 8f 94 d0 ad  c5 52 12 94 c4 92 a8 c4  |.........R......|
 00000040
-jason@ubuntu-vm:~/Downloads/fw9900p$ tail -c 64 sys_ver1.11.1.10.bin | hexdump -C
-00000000  0f 19 df 7a 3c 7a 5a 03  bd 94 6d 99 6f 45 7a 9b  |...z<zZ...m.oEz.|
-00000010  65 e3 34 da 0c b5 fe 95  1e 09 f1 53 49 9a 49 d2  |e.4........SI.I.|
-00000020  2a 0a 40 49 37 61 1a 0c  d2 7e 7f 46 bb a0 5f a1  |*.@I7a...~.F.._.|
-00000030  7c 91 54 6c f7 18 00 3f  65 d4 6b 32 06 8a 28 fc  ||.Tl...?e.k2..(.|
+jason@ubuntu-vm:~/Downloads/fw9900p$ tail -c 64 sys10-dec | hexdump -C
+00000000  82 5b 83 44 0d 76 07 c1  99 d8 bb 9c 22 6e 21 f7  |.[.D.v......"n!.|
+00000010  e0 32 8f 33 17 ca 01 94  4c 4d ac bf 4e 4f de 8e  |.2.3....LM..NO..|
+00000020  23 5e 6e cd 42 6c 1d 69  70 06 e9 be 50 ed 89 17  |#^n.Bl.ip...P...|
+00000030  f1 33 1f 06 6b 08 e3 09  3c e5 69 17 56 05 76 c0  |.3..k...<.i.V.v.|
 00000040
-jason@ubuntu-vm:~/Downloads/fw9900p$ tail -c 64 sys_ver1.11.1.11.bin | hexdump -C
-00000000  b8 ba 4d da cc 1a dd 1e  07 65 2e 0b f5 7d dd 81  |..M......e...}..|
-00000010  d2 c6 21 0f 89 9c f6 e5  17 5e a6 aa ed e5 f0 43  |..!......^.....C|
-00000020  0a c5 53 63 cf cc 8a 81  9e 7f 61 d0 ea 11 46 24  |..Sc......a...F$|
-00000030  8b 60 ef e7 ca d1 6f c9  93 05 2f ff bb de 87 89  |.`....o.../.....|
+jason@ubuntu-vm:~/Downloads/fw9900p$ tail -c 64 sys11-dec | hexdump -C
+00000000  4a c9 9f b7 22 9a e2 5b  ea 37 ef b5 3a d8 4d a5  |J..."..[.7..:.M.|
+00000010  29 37 91 7f 71 11 dd 8e  c1 a1 94 9e 58 8b 20 71  |)7..q.......X. q|
+00000020  a4 2f bd e8 11 85 83 6a  a4 c3 71 e3 1d e3 08 2c  |./.....j..q....,|
+00000030  5d 00 e3 d2 42 54 f2 68  ee e2 3f 5f 64 7c 98 3b  |]...BT.h..?_d|.;|
 00000040
+
 ```
